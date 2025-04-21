@@ -1,0 +1,63 @@
+# YOLOv8n配置文件
+
+# 数据集路径
+train: D:\wyq\Postgraduate\cv\garbage-classification-yolov8-project\data\images\train  # 训练集图像路径
+val: D:\wyq\Postgraduate\cv\garbage-classification-yolov8-project\data\images\val      # 验证集图像路径
+test: D:\wyq\Postgraduate\cv\garbage-classification-yolov8-project\data\images\test    # 测试集图像路径（可选）
+
+# 类别数量
+nc: 4
+
+# 类别名称
+names: ['可回收物', '有害垃圾', '厨余垃圾', '其他垃圾']
+
+# 模型参数
+model:
+  type: YOLOv8n
+  depth_multiple: 0.33
+  width_multiple: 0.50
+  anchors:
+    - [10,13, 16,30, 33,23]
+    - [30,61, 62,45, 59,119]
+    - [116,90, 156,198, 373,326]
+  backbone:
+    - [DarknetConv, [32, 3, 1]]
+    - [DarknetBlock, [64, 32, 1]]
+    - [DarknetConv, [64, 3, 2]]
+    - [DarknetBlock, [128, 64, 2]]
+    - [DarknetConv, [128, 3, 2]]
+    - [DarknetBlock, [256, 128, 2]]
+    - [DarknetConv, [256, 3, 2]]
+    - [DarknetBlock, [512, 256, 1]]
+    - [DarknetConv, [512, 3, 2]]
+    - [DarknetBlock, [1024, 512, 1]]
+  head:
+    - [Conv, [256, 1, 1]]
+    - [Upsample, [None, 2, 'nearest']]
+    - [Concat, [1]]
+    - [Conv, [256, 1, 1]]
+    - [C3, [256, False]]
+    - [Conv, [128, 1, 1]]
+    - [Upsample, [None, 2, 'nearest']]
+    - [Concat, [1]]
+    - [Conv, [128, 1, 1]]
+    - [C3, [128, False]]
+    - [Conv, [128, 3, 2]]
+    - [Concat, [2]]
+    - [Conv, [256, 1, 1]]
+    - [C3, [256, False]]
+    - [Conv, [256, 3, 2]]
+    - [Concat, [3]]
+    - [Conv, [512, 1, 1]]
+    - [C3, [512, False]]
+    - [SPPF, [512, 5]]
+    - [Conv, [512, 1, 1]]
+    - [nn.Upsample, [None, 2, 'nearest']]
+    - [Concat, [4]]
+    - [Conv, [256, 1, 1]]
+    - [C3, [256, False]]
+    - [nn.Upsample, [None, 2, 'nearest']]
+    - [Concat, [6]]
+    - [Conv, [128, 1, 1]]
+    - [C3, [128, False]]
+    - [nn.Conv2d, [nc, 1, 1, 0]]

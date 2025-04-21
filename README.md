@@ -87,7 +87,7 @@ garbage-classification-yolov8-project/
     python train.py
    ```
 
-4. **使用模型:**利用公开数据集训练好的模型储存在`garbage-classification/train/weights/best.pt`中吗，`detect.py`预测代码中选用的正是此训练好的模型。
+4. **使用模型**:利用公开数据集训练好的模型储存在`garbage-classification/train/weights/best.pt`中吗，`detect.py`预测代码中选用的正是此训练好的模型。
 
 
 
